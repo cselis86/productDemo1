@@ -1,33 +1,41 @@
 package com.elis.product1.product1.controllers;
 
-import com.elis.product1.product1.entities.Product;
-import com.elis.product1.product1.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.elis.product1.product1.entities.dtos.product.create.CreateProductDto;
+import com.elis.product1.product1.entities.dtos.product.find.GetProductsRespDto;
+import com.elis.product1.product1.service.ProductServiceImpl;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
+@NoArgsConstructor
+@RequestMapping("/api/products")
 public class ProductController {
 
-    @Autowired
-    ProductRepository productRepository;
+    private ProductServiceImpl productService;
 
+    @GetMapping
+    public List<GetProductsRespDto> getProducts(){
 
-    @GetMapping("/createProduct")
-    public long createProduct(){
-        Product product = new Product();
-        product.setName("lg");
-        Product save = productRepository.save(product);
-
-        return save.getId();
+        return productService.getAllProducts();
     }
 
+    @PostMapping
+    @Transactional
+    public @ResponseBody Integer createProduct(@Valid @RequestBody CreateProductDto dto) {
 
-    @GetMapping("/getProducts")
-    public List<Product> getProducts(){
+        productService.createProduct(dto);
 
-        return productRepository.findAll();
+        return null;
     }
 }
