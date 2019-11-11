@@ -1,6 +1,9 @@
 package com.elis.product1.product1.controllers;
 
+import com.elis.product1.product1.commons.paging.PageResp;
 import com.elis.product1.product1.entities.dtos.product.create.CreateProductDto;
+import com.elis.product1.product1.entities.dtos.product.find.FindProductDto;
+import com.elis.product1.product1.entities.dtos.product.find.FindProductsReq;
 import com.elis.product1.product1.entities.dtos.product.find.GetProductsRespDto;
 import com.elis.product1.product1.entities.dtos.product.update.UpdateProductReq;
 import com.elis.product1.product1.service.ProductServiceImpl;
@@ -46,5 +49,10 @@ public class ProductController {
         int resp = productService.updateProduct(id, req);
 
         return resp;
+    }
+
+    @PostMapping("/findProduct")
+    public PageResp<FindProductDto> findProductsPage(@Valid @RequestBody FindProductsReq req) {
+        return productService.findProductsPage(req);
     }
 }

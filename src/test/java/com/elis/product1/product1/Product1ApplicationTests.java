@@ -2,6 +2,7 @@ package com.elis.product1.product1;
 
 import com.elis.product1.product1.controllers.ProductController;
 import com.elis.product1.product1.entities.dtos.product.create.CreateProductDto;
+import com.elis.product1.product1.entities.dtos.product.find.FindProductsReq;
 import com.elis.product1.product1.entities.dtos.product.update.UpdateProductReq;
 import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,5 +53,16 @@ class Product1ApplicationTests {
         req.setType(2);
 
         c.updateProduct(req.getId(), req);
+    }
+
+    @Test
+    void findProductsOptionPaging() {
+
+        FindProductsReq req = new FindProductsReq();
+
+        req.setFilter("to");
+        req.setOffset(10);
+
+        c.findProductsPage(req);
     }
 }
